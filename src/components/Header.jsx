@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <>
     <ColorModeSwitcher />
-    <Button onClick={onOpen}  colorScheme='blue' width={'12'} height={'12'} rounded={'full'} position={'fixed'} top={'6'} left={'6'}>
+    <Button zIndex={'overlay'} onClick={onOpen}  colorScheme='blue' width={'12'} height={'12'} rounded={'full'} position={'fixed'} top={'6'} left={'6'}>
         <RiMenu5Fill/>
     </Button>
     <Drawer placement='left' isOpen={isOpen} onClose={onClose}>
