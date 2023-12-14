@@ -36,7 +36,7 @@ const Courses = () => {
   const [category,setCategory] = useState('');
 
   const addToPlaylistHandler =()=>{
-    console.log("Fuck u ")
+    console.log("Added to playlist")
   }
   const categories = [
     'Web development','App development','Game development' ,'Artificial inteligence','Data structure & Algorithm', 'Data science'
@@ -52,7 +52,7 @@ const Courses = () => {
       }}>
         {
           categories.map((item,index)=>(
-            <Button key={index} onClick={()=>setCategory(item)} minW={'60'}>
+            <Button colorScheme='blue' key={index} onClick={()=>setCategory(item)} minW={'60'}>
               <Text>{item}</Text>
             </Button>
           ))
