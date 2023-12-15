@@ -16,7 +16,7 @@ const Home = () => {
             <Heading fontSize={'3rem'}>LEARN FROM EXPERTS</Heading>
             <Text>Elevate Your Education Journey with Us</Text>
             <HStack marginTop={"20px"}>
-              <Link to={'/expore'}><Button colorScheme='blue'>View Courses</Button></Link>
+              <Link to={'/subscribe'}><Button colorScheme='blue'>Subscribe Now</Button></Link>
               <Link to={'/register'}><Button colorScheme={'blue'}>Register Now</Button></Link>
             </HStack>
           </VStack>
