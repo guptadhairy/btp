@@ -4,12 +4,9 @@ import {RiDashboardFill, RiLogoutBoxRLine, RiMenu5Fill} from 'react-icons/ri'
 import { Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, HStack, VStack, useDisclosure } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
-    const {isOpen,onOpen,onClose} = useDisclosure()
-    const isAuthenticated = true;
-    const user = {
-        role: 'admin',
-    };
+const Header = ({isAuthenticated=false, user}) => {
+    const {isOpen,onOpen,onClose} = useDisclosure();
+
     const logOutHandler = ()=>{
         console.log("Log out hogya bc ")
     }

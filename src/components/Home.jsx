@@ -7,13 +7,22 @@ import Marque from './Marque';
 import Marq from "./Marq";
 import Swiper from './Swiper';
 import Whyus from './Whyus';
+import Shery from 'sheryjs';
+
+Shery.mouseFollower({
+  //Parameters are optional.
+  skew: true,
+  ease: "cubic-bezier(0.23, 1, 0.320, 1)",
+  duration: 1,
+}); 
+
 const Home = () => {
   return (
     <div>
       <Stack>
         <HStack padding={"30px"} height={"100vh"} width={"full"} justifyContent={"space-between"}>
           <VStack width={'full'} height={'100vh'} justifyContent={'center'}>
-            <Heading fontSize={'3rem'}>LEARN FROM EXPERTS</Heading>
+            <Heading  fontSize={'3rem'}>LEARN FROM EXPERTS</Heading>
             <Text>Elevate Your Education Journey with Us</Text>
             <HStack marginTop={"20px"}>
               <Link to={'/subscribe'}><Button colorScheme='blue'>Subscribe Now</Button></Link>
