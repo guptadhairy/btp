@@ -10,4 +10,4 @@ const store = configureStore({
 
 export default store;
 
-export const server = "https://learnr-back-dgho.vercel.app/api/v1";
+export const server = "https://lms-backend-mdmr.onrender.com/api/v1";

@@ -3,12 +3,15 @@ import {ColorModeSwitcher} from '../ColorModeSwitcher';
 import {RiDashboardFill, RiLogoutBoxRLine, RiMenu5Fill} from 'react-icons/ri'
 import { Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, HStack, VStack, useDisclosure } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/actions/user';
 
 const Header = ({isAuthenticated=false, user}) => {
     const {isOpen,onOpen,onClose} = useDisclosure();
+    const dispatch = useDispatch();
 
     const logOutHandler = ()=>{
-        console.log("Log out hogya bc ")
+        dispatch(logout());
     }
   return (
     <>
@@ -37,7 +40,7 @@ const Header = ({isAuthenticated=false, user}) => {
                             <VStack>
                                 <HStack>
                                     <Link onClick={onClose} to='/profile'><Button variant={'ghost'} colorScheme='blue'>PROFILE</Button></Link>
-                                    <Button variant={'ghost'} onClick={logOutHandler()}>
+                                    <Button variant={'ghost'} onClick={logOutHandler}>
                                         <RiLogoutBoxRLine style={{margin: '4px'}} />
                                         LOG OUT</Button>
                                 </HStack>

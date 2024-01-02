@@ -3,22 +3,8 @@ import React from 'react'
 import {RiDeleteBin7Fill} from "react-icons/ri"
 import { Link } from 'react-router-dom'
 
-const Profile = () => {
-    const user = {
-        name: "Dhairya",
-        email: "dhiru@gmail.com",
-        createdAt: String(new Date().toISOString()),
-        role: "user",
-        subscription: {
-            status: "active"
-        },
-        playlist: [
-            {
-                course: "web development" , 
-                poster: "https://cdn.pixabay.com/photo/2018/05/08/08/44/artificial-intelligence-3382507_1280.jpg",
-            }
-        ],
-    }
+const Profile = ({user}) => {
+    
     const removePlaylistHandler = id => {
         console.log(id);
     }
@@ -41,7 +27,7 @@ const Profile = () => {
             user.role !== 'admin' && <HStack>
                 <Text fontWeight={'bold'}>Subscription : </Text>
                 {
-                    user.subscription.status === "active" ? (
+                    user.subscription && user.subscription.status === "active" ? (
                         <Button colorScheme='blue'>Cancel Subscription</Button>
                     ):
                     <Link to={'/subscribe'}><Button colorScheme='blue'>Subscribe</Button></Link>
