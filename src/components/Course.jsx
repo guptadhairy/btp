@@ -1,7 +1,10 @@
 import { Button, Container, HStack, Heading, Input,Stack,Text, VStack,Image } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import "../styles/courses.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllCourses } from '../redux/actions/course';
+import toast from 'react-hot-toast';
 const Course = ({views,title,imageSrc,id,addToPlaylistHandler,creator,description,lecture})=>{
   return(
     <VStack className='course' alignItems={['center','flex-start']}>
@@ -35,12 +38,24 @@ const Courses = () => {
   const [keyword,setKeyword] = useState('');
   const [category,setCategory] = useState('');
 
-  const addToPlaylistHandler =()=>{
-    console.log("Added to playlist")
+  const addToPlaylistHandler =(courseId)=>{
+    console.log("Added to playlist", courseId)
   }
   const categories = [
     'Web development','App development','Game development' ,'Artificial inteligence','Data structure & Algorithm', 'Data science'
-  ]
+  ];
+  const {error, courses} = useSelector(state => state.course);
+
+  const dispatch = useDispatch();
+  useEffect(() =>{
+    dispatch(getAllCourses(category, keyword));
+    if(error) {
+      toast.error(error);
+      dispatch({type: 'clearError'});
+    }
+
+  },[category, keyword, dispatch, error]);
+
   return (
     <Container minH={'95vh'} maxW={'container.lg'} paddingY={'8'}>
       <Heading m={'8'}>ALL COURSES</Heading>
@@ -59,7 +74,11 @@ const Courses = () => {
         }
       </HStack>
       <Stack direction={['column','row']} flexWrap={'wrap'} justifyContent={['flex-start','space-evenly']} alignItems={['center','flex-start']}>
-        <Course title={'Sample'} description={'sample'} views={'2K'} imageSrc={'https://cdn.pixabay.com/photo/2018/05/08/08/44/artificial-intelligence-3382507_1280.jpg'} id={'sample'} creator={'sample'} lecture={2} addToPlaylistHandler={addToPlaylistHandler}/>
+        {
+          courses.length > 0 ? courses.map((item) =>(
+            <Course key={item._id} title={item.title} description={item.description} views={item.views} imageSrc={item.poster.url} id={item.id} creator={item.createdBy} lecture={item.numOfVideos} addToPlaylistHandler={addToPlaylistHandler}/>
+          )) : <Heading>Course not Found</Heading>
+        }
 
       </Stack>
     </Container>

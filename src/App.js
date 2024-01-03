@@ -26,14 +26,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from "react-hot-toast";
 import { loadUser } from './redux/actions/user';
 import { ProtectedRoute } from "protected-route-react"
-import Loader from './components/Loader';
+// import Loader from './components/Loader';
 
 function App() {
   // window.addEventListener('contextmenu', e =>{
   //   e.preventDefault();
   // });
 
-  const { isAuthenticated, user, message, error, loading } = useSelector(state => state.user)
+  const { isAuthenticated, user, message, error } = useSelector(state => state.user)
   const dispatch = useDispatch();
   useEffect(() => {
     if (error) {
@@ -52,10 +52,7 @@ function App() {
 
   return (
     <Router>
-      {
-        loading ? (<Loader />) : (
-          <>
-            <Header isAuthenticated={isAuthenticated} user={user} />
+      <Header isAuthenticated={isAuthenticated} user={user} />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path='/courses' element={<Course />} />
@@ -67,10 +64,10 @@ function App() {
               <Route path='/register' element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/profile">
                 <Register />
               </ProtectedRoute>} />
-              <Route path='/forgetpassword' element={<ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Route path='/forgetpassword' element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/profile">
                 <ForgetPassword />
               </ProtectedRoute>} />
-              <Route path='/resetpassword/:token' element={<ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Route path='/resetpassword/:token' element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/profile">
                 <ResetPassword />
               </ProtectedRoute>} />
               <Route path='/contact' element={<Contact />} />
@@ -87,7 +84,7 @@ function App() {
                 </ProtectedRoute>
               } />
               <Route path='/changepassword' element={<ChangePassword />} />
-              <Route path='/updateprofile' element={<UpdateProfile />} />
+              <Route path='/updateprofile' element={<UpdateProfile user={user} />} />
 
               <Route path='/admin/dashboard' element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} isAdmin={user && user.role === "admin"}>
                 <Dashboard />
@@ -105,9 +102,6 @@ function App() {
             </Routes>
             <Footer />
             <Toaster />
-          </>
-        )
-      }
     </Router>
   );
 }

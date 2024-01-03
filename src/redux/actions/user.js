@@ -23,7 +23,7 @@ export const register = (name,email,password) => async dispatch => {
     try {
         dispatch({type: 'registerRequest'});
 
-        const { data } = await axios.post(`${server}/register`, name,email,password, {
+        const { data } = await axios.post(`${server}/register`,{name,email,password }, {
             headers: {
                 'Content-type': 'application/json',
             },
