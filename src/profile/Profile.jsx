@@ -1,13 +1,46 @@
 import { HStack, Heading, VStack, Text, Button, Stack, Image } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {RiDeleteBin7Fill} from "react-icons/ri"
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { removeFromPlaylist } from '../redux/actions/profile'
+import { cancelSubscription, loadUser } from '../redux/actions/user'
+import toast from 'react-hot-toast'
 
 const Profile = ({user}) => {
+    const dispatch = useDispatch();
     
-    const removePlaylistHandler = id => {
-        console.log(id);
+    const {error, message} = useSelector(state => state.profile);
+    const {error:subscriptionError, message:subscriptionMessage} = useSelector(state => state.subscription);
+
+    const removePlaylistHandler = async(id) => {
+        await dispatch(removeFromPlaylist(id));
+        dispatch(loadUser());
     }
+
+    const cancelSubscriptionHandler = () =>{
+        dispatch(cancelSubscription());
+    }
+    useEffect(() => {
+        if(error) {
+            toast.error(error);
+            dispatch({type: 'clearError'});
+        }
+        if(message) {
+            toast.success(message);
+            dispatch({type: 'clearMessage'});
+        }
+        if(subscriptionError) {
+            toast.error(subscriptionError);
+            dispatch({type: 'clearError'});
+        }
+        if(subscriptionMessage) {
+            toast.success(subscriptionMessage);
+            dispatch({type: 'clearMessage'});
+            dispatch(loadUser());
+        }
+    }, [error, message, dispatch, subscriptionError, subscriptionMessage]);
+
   return (
     <VStack minH={'100vh'} padding={'30px'} justifyContent={'center'}>
         <Heading>Profile</Heading>
@@ -28,7 +61,7 @@ const Profile = ({user}) => {
                 <Text fontWeight={'bold'}>Subscription : </Text>
                 {
                     user.subscription && user.subscription.status === "active" ? (
-                        <Button colorScheme='blue'>Cancel Subscription</Button>
+                        <Button onClick={cancelSubscriptionHandler} colorScheme='blue'>Cancel Subscription</Button>
                     ):
                     <Link to={'/subscribe'}><Button colorScheme='blue'>Subscribe</Button></Link>
                 }

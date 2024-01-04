@@ -127,6 +127,17 @@ const profileReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload;
     })
+    .addCase("removeFromPlaylistRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("removeFromPlaylistSuccess", (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    })
+    .addCase("removeFromPlaylistFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
     .addCase("clearError", (state) => {
       state.error = null;
     })
@@ -136,3 +147,37 @@ const profileReducer = createReducer(initialState, (builder) => {
 });
 
 export default profileReducer;
+
+
+export const subscriptionReducer = createReducer({}, (builder) => {
+  builder
+    .addCase("buySubscriptionRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("buySubscriptionSuccess", (state, action) => {
+      state.loading = false;
+      state.subscriptionId = action.payload;
+    })
+    .addCase("buySubscriptionFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    .addCase("cancelSubscriptionRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("cancelSubscriptionSuccess", (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    })
+    .addCase("cancelSubscriptionFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    .addCase("clearError", (state) => {
+      state.error = null;
+    })
+    .addCase("clearMessage", (state) => {
+      state.message = null;
+    });
+});
+

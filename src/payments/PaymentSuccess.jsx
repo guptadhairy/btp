@@ -1,16 +1,13 @@
 import React from 'react'
 import {Card, CardBody, CardHeader, CardFooter, Heading, Text, Button, VStack} from "@chakra-ui/react"
-import {RiCheckboxCircleFill} from 'react-icons/ri'
+import {RiCheckboxCircleFill} from 'react-icons/ri';
+import { Link, useSearchParams } from 'react-router-dom';
+
 const PaymentSuccess = () => {
+    const reference = useSearchParams()[0].get("reference");
   return (
     <VStack height={'100vh'} justifyContent={'center'}>
         <Heading>You have Pro Pack</Heading>
-        <SuccessCard />
-    </VStack>
-  )
-}
-const SuccessCard = () => {
-    return (
         <Card align='center' maxW={'md'}>
             <CardHeader>
                 <Heading color={'green'} size='md'> Payment Success</Heading>
@@ -23,13 +20,15 @@ const SuccessCard = () => {
             </CardBody>
             <CardFooter>
                 <VStack mt={'-9'}>
-                <Button variant={'ghost'} w={'full'} colorScheme='blue'>Go to Profile</Button>
+                <Link to={"/profile"}><Button variant={'ghost'} w={'full'} colorScheme='blue'>Go to Profile</Button></Link>
                 <Heading size={'xs'}>
-                    Reference: sdfghjk56e9876
+                    Reference: {reference}
                 </Heading>
                 </VStack>
             </CardFooter>
         </Card>
-    )
+    </VStack>
+  )
 }
+
 export default PaymentSuccess

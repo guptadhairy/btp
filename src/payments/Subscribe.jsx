@@ -1,15 +1,65 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {Card, CardBody, CardHeader, CardFooter, Heading, Text, Button, VStack} from "@chakra-ui/react"
-const Subscribe = () => {
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+import { server } from '../redux/store'
+import { buySubscription } from '../redux/actions/user'
+import toast from 'react-hot-toast'
+import logo from "../assets/lms.jpg"
+
+const Subscribe = ({user}) => {
+    const dispatch = useDispatch();
+    const [key, setKey] = useState("");
+
+    const {error, subscriptionId} = useSelector(state => state.subscription);
+    const {error: courseError} = useSelector(state => state.course);
+
+    const subscribeHandler = async() => {
+        const {data:{key}} = await axios.get(`${server}/razorpaykey`);
+        setKey(key);
+        dispatch(buySubscription());
+    };
+
+    useEffect(()=>{
+        if(error) {
+            toast.error(error);
+            dispatch({type: 'clearError'});
+        }
+        if(courseError) {
+            toast.error(courseError);
+            dispatch({type: 'clearError'});
+        }
+        if(subscriptionId){
+            const openPopUp = () =>{
+                const options = {
+                    key,
+                    name: "Learnr",
+                    description: "Get access to all premium content",
+                    image:logo,
+                    subscription_id: subscriptionId,
+                    callback_url: `${server}/paymentverification`,
+                    prefill:{
+                        name:user.name,
+                        email:user.email,
+                        contact:""
+                    },
+                    notes:{
+                        address: "Dhiru Gupta's web-app"
+                    },
+                    theme:{
+                        color: "#0000FF"
+                    }
+                };
+                const razor = new window.Razorpay(options);
+                razor.open();
+            };
+            openPopUp()
+        }
+    },[dispatch, error, user.name, user.email, key, subscriptionId, courseError]);
+
     return (
         <VStack height={'100vh'} justifyContent={'center'}>
-            <SubscribeCard />
-        </VStack>
-    )
-}
-const SubscribeCard = () => {
-    return (
-        <Card align='center' maxW={'md'}>
+            <Card align='center' maxW={'md'}>
             <CardHeader>
                 <Heading size='md'> Become a Pro Member</Heading>
             </CardHeader>
@@ -19,9 +69,10 @@ const SubscribeCard = () => {
                 <Heading mt={'4'} display={'flex'} justifyContent={'center'} size={'md'}> ₹299 Only</Heading>
             </CardBody>
             <CardFooter>
-                <Button w={'full'} colorScheme='blue'>Buy Now</Button>
+                <Button onClick={subscribeHandler} w={'full'} colorScheme='blue'>Buy Now</Button>
             </CardFooter>
         </Card>
+        </VStack>
     )
 }
 export default Subscribe

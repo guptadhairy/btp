@@ -5,6 +5,9 @@ import "../styles/courses.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCourses } from '../redux/actions/course';
 import toast from 'react-hot-toast';
+import { addToPlaylist } from '../redux/actions/profile';
+import {loadUser} from "../redux/actions/user";
+
 const Course = ({views,title,imageSrc,id,addToPlaylistHandler,creator,description,lecture})=>{
   return(
     <VStack className='course' alignItems={['center','flex-start']}>
@@ -38,13 +41,15 @@ const Courses = () => {
   const [keyword,setKeyword] = useState('');
   const [category,setCategory] = useState('');
 
-  const addToPlaylistHandler =(courseId)=>{
-    console.log("Added to playlist", courseId)
+  const addToPlaylistHandler =async(courseId)=>{
+    console.log(courseId);
+    await dispatch(addToPlaylist(courseId));
+    dispatch(loadUser());
   }
   const categories = [
     'Web development','App development','Game development' ,'Artificial inteligence','Data structure & Algorithm', 'Data science'
   ];
-  const {error, courses} = useSelector(state => state.course);
+  const {error, courses, message} = useSelector(state => state.course);
 
   const dispatch = useDispatch();
   useEffect(() =>{
@@ -53,8 +58,12 @@ const Courses = () => {
       toast.error(error);
       dispatch({type: 'clearError'});
     }
+    if(message) {
+      toast.success(message);
+      dispatch({type: 'clearMessage'});
+    }
 
-  },[category, keyword, dispatch, error]);
+  },[category, keyword, dispatch, error, message]);
 
   return (
     <Container minH={'95vh'} maxW={'container.lg'} paddingY={'8'}>
@@ -76,7 +85,7 @@ const Courses = () => {
       <Stack direction={['column','row']} flexWrap={'wrap'} justifyContent={['flex-start','space-evenly']} alignItems={['center','flex-start']}>
         {
           courses.length > 0 ? courses.map((item) =>(
-            <Course key={item._id} title={item.title} description={item.description} views={item.views} imageSrc={item.poster.url} id={item.id} creator={item.createdBy} lecture={item.numOfVideos} addToPlaylistHandler={addToPlaylistHandler}/>
+            <Course key={item._id} title={item.title} description={item.description} views={item.views} imageSrc={item.poster.url} id={item._id} creator={item.createdBy} lecture={item.numOfVideos} addToPlaylistHandler={addToPlaylistHandler}/>
           )) : <Heading>Course not Found</Heading>
         }
 
