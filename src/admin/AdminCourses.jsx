@@ -1,29 +1,28 @@
 import { Box, Button, Grid, HStack, Heading, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr, Image, useDisclosure } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Sidebar from './Sidebar'
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import CourseModal from './CourseModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllCourses, getCourseLectures } from '../redux/actions/course';
+import { deleteCourse } from '../redux/actions/admin';
+import toast from 'react-hot-toast';
 
 
 const AdminCourses = () => {
-    const courses = [{
-        _id: "asdfghjkl",
-        title: "React Course",
-        category: "Web development",
-        poster: {
-          url: "https://cdn.pixabay.com/photo/2018/05/08/08/44/artificial-intelligence-3382507_1280.jpg",
-        },
-        createdBy: "dhiru_gupta",
-        views: 123,
-        numOfVideos: 13
-    }];
+    const dispatch = useDispatch();
+    
+    const {courses, lectures} = useSelector(state => state.course);
+    const {error, message} = useSelector(state => state.admin);
     const {isOpen, onClose, onOpen} = useDisclosure();
-    const courseDetailHandler = userId =>(
-        onOpen()
-    );
-    const deleteButtonHandler = userId =>(
-        console.log(userId)
-    );
+
+    const courseDetailHandler = courseId =>{
+        dispatch(getCourseLectures(courseId));
+        onOpen();
+    };
+    const deleteButtonHandler = courseId =>{
+        dispatch(deleteCourse(courseId));
+    };
     const deleteLectureButtonHandler = (courseId, lectureId) => {
       console.log(courseId);
       console.log(lectureId)
@@ -31,7 +30,18 @@ const AdminCourses = () => {
     const addLectureHandler = (e, courseId, title, description, video)=>{
       e.preventDefault();
     };
-    
+    useEffect(()=>{
+        if(error){
+            toast.error(error);
+            dispatch({type: 'clearError'});
+        }
+        if(message) {
+            toast.success(message);
+            dispatch({type: 'clearMessage'});
+        }
+        dispatch(getAllCourses());
+    },[dispatch, error, message]);
+
   return (
     <Grid minH={'100vh'} templateColumns={['1fr', '5fr 1fr']}>
         <Box p={['0', '8']} overflowX={'auto'}>
@@ -60,7 +70,7 @@ const AdminCourses = () => {
                     </Tbody>
                 </Table>
             </TableContainer>
-            <CourseModal isOpen={isOpen} onClose={onClose} courseTitle="React Course" id={"1234qwer"} deleteButtonHandler={deleteLectureButtonHandler} addLectureHandler={addLectureHandler} />
+            <CourseModal isOpen={isOpen} onClose={onClose} courseTitle="React Course" id={"1234qwer"} deleteButtonHandler={deleteLectureButtonHandler} addLectureHandler={addLectureHandler} lectures={lectures} />
         </Box>
         <Sidebar />
     </Grid>

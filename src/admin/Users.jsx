@@ -1,25 +1,36 @@
 import { Box, Button, Grid, HStack, Heading, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Sidebar from './Sidebar'
 import { RiDeleteBin7Fill } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteUser, getAllUsers, updateUserRole } from '../redux/actions/admin';
+import toast from 'react-hot-toast';
 
 
 const Users = () => {
-    const users = [{
-        _id: "asdfghjkl",
-        name: "Dhiru",
-        email: "dhiru@gmail.com",
-        role: "admin",
-        subscription: {
-            status: "active"
-        },
-    }];
-    const updateHandler = userId =>(
-        console.log(userId)
-    );
-    const deleteHandler = userId =>(
-        console.log(userId)
-    );
+
+    const dispatch = useDispatch();
+
+    const {users, error, message} = useSelector(state => state.admin);
+
+    const updateHandler = userId =>{
+        dispatch(updateUserRole(userId));
+    };
+    const deleteHandler = userId =>{
+        dispatch(deleteUser(userId));
+    };
+
+    useEffect(() =>{
+        if(error) {
+            toast.error(error);
+            dispatch({type: 'clearError'});
+        }
+        if(message) {
+            toast.success(message);
+            dispatch({type: 'clearMessage'});
+        }
+        dispatch(getAllUsers());
+    }, [dispatch, error, message]);
 
   return (
     <Grid minH={'100vh'} templateColumns={['1fr', '5fr 1fr']}>
@@ -40,7 +51,7 @@ const Users = () => {
                     </Thead>
                     <Tbody>
                         {
-                            users.map(item =>(
+                            users && users.map(item =>(
                                 <Row updateHandler={updateHandler} deleteHandler={deleteHandler} key={item._id} item={item} />
                             ))
                         }
@@ -64,7 +75,7 @@ function Row({item, updateHandler, deleteHandler}){
             <Td>{item.name}</Td>
             <Td>{item.email}</Td>
             <Td>{item.role}</Td>
-            <Td>{item.subscription.status==="active" ? "Active" : "Not Active" }</Td>
+            <Td>{item.subscription && item.subscription.status==="active" ? "Active" : "Not Active" }</Td>
             <Td isNumeric>
                 <HStack justifyContent={'flex-end'}>
                     <Button onClick={() => updateHandler(item._id)} color={'blue'} variant={"outline"}>Change Role</Button>

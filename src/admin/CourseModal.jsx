@@ -57,7 +57,7 @@ const CourseModal = ({isOpen, onClose, id, deleteButtonHandler, courseTitle, lec
                         {
                             lectures.map((item, i) =>(
                                 
-                                <VideoCard key={i} title=" React Intro" description="This is a intro lecture, where you will know about the basics of react and react native." num={i+1} lectureId=" qwer345" courseId={id} deleteButtonHandler={deleteButtonHandler} />
+                                <VideoCard key={i} title={item.title} description={item.description} num={i+1} lectureId={item._id} courseId={id} deleteButtonHandler={deleteButtonHandler} />
                             ))
                         }
                     </Box>
