@@ -1,8 +1,10 @@
 import { Box, Grid, HStack, Heading, Progress, Stack, Text } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Sidebar from './Sidebar'
 import { RiArrowDownLine, RiArrowUpLine } from 'react-icons/ri'
-import { DoughnutChart, LineChart } from './Chart';
+import { DoughnutChart } from './Chart';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDashboardStats } from '../redux/actions/admin';
 
 const DataBox = ({title, qtyPercentage, qty, profit}) =>(
     <Box w={['full', '20%']} boxShadow={'-2px 0 10px rgba(107, 70, 193, 0.5)' } p={'8'} borderRadius={'lg'}>
@@ -30,32 +32,47 @@ const Bar = ({title, value, profit}) =>(
 )
 
 const Dashboard = () => {
+    const dispatch = useDispatch();
+    const {
+        usersCount,
+        subscriptionCount,
+        viewsCount,
+        subscriptionPercentage,
+        usersPercentage,
+        viewsPercentage,
+        subscriptionProfit,
+        viewsProfit,
+        usersProfit} = useSelector(state=>state.admin);
+
+    useEffect(()=>{
+        dispatch(getDashboardStats());
+    },[dispatch])
   return (
     <Grid minH={'100vh'} templateColumns={['1fr', '5fr 1fr']}>
         <Box boxSizing='border-box' py={'16'} px={['4', '0']}>
             <Text textAlign={'center'} opacity={0.5}>Last Change was on {String(new Date()).split("G")[0]}</Text>
             <Heading ml={['0', '16']} mb={'16'} textAlign={['center', 'left']}>DashBoard</Heading>
             <Stack direction={['column', 'row']} minH={'24'} justifyContent={'space-evenly'}>
-                <DataBox title="Views" qty={123} qtyPercentage={30} profit={true} />
-                <DataBox title="Users" qty={23} qtyPercentage={40} profit={true} />
-                <DataBox title="Subscription" qty={20} qtyPercentage={10} profit={false} />
+                <DataBox title="Views" qty={viewsCount} qtyPercentage={viewsPercentage} profit={viewsProfit} />
+                <DataBox title="Users" qty={usersCount} qtyPercentage={Math.round(usersPercentage)} profit={usersProfit} />
+                <DataBox title="Subscription" qty={subscriptionCount} qtyPercentage={subscriptionPercentage} profit={subscriptionProfit} />
             </Stack>
             <Box m={['0', '16']} borderRadius={'lg'} p={['0', '16']} mt={['4', '16']} boxShadow={'-2px 0 10px rgba(107, 70, 193, 0.5)' } >
                 <Heading textAlign={['center', 'left']} size={'md'} pt={['8', '0']} ml={['0', '16']}>Views Graph</Heading>
-                <LineChart />
+                {/* <LineChart /> */}
             </Box>
             <Grid templateColumns={['1fr', '2fr 1fr']}>
                 <Box p={'4'}>
                     <Heading textAlign={['center', 'left']} size={'md'} my={'8'} ml={['0', '16']}>Progress Bar</Heading>
                     <Box>
-                        <Bar profit={true} title="Views" value={30} />
-                        <Bar profit={true} title="Users" value={78} />
-                        <Bar profit={false} title="Subscription" value={20} />
+                        <Bar profit={viewsProfit} title="Views" value={viewsPercentage} />
+                        <Bar profit={usersProfit} title="Users" value={usersPercentage} />
+                        <Bar profit={subscriptionProfit} title="Subscription" value={subscriptionPercentage} />
                     </Box>
                 </Box>
                 <Box p={['0', '16']} boxSizing='border-box' py={'4'}>
                     <Heading textAlign={'center'} size={'md'} mb={'4'}>Users</Heading>
-                    <DoughnutChart />
+                    <DoughnutChart views={[subscriptionCount, usersCount - subscriptionCount]} />
                 </Box>
             </Grid>
         </Box>

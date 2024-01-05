@@ -63,6 +63,26 @@ export const adminReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload;
     })
+    .addCase("getAdminStatsRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("getAdminStatsSuccess", (state, action) => {
+      state.loading = false;
+      state.stats = action.payload.stats;
+      state.usersCount = action.payload.usersCount;
+      state.subscriptionCount = action.payload.subscriptionCount;
+      state.viewsCount = action.payload.viewsCount;
+      state.subscriptionPercentage = action.payload.subscriptionPercentage;
+      state.usersPercentage = action.payload.usersPercentage;
+      state.viewsPercentage = action.payload.viewsPercentage;
+      state.subscriptionProfit = action.payload.subscriptionProfit;
+      state.viewsProfit = action.payload.viewsProfit;
+      state.usersProfit = action.payload.usersProfit;
+    })
+    .addCase("getAdminStatsFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
      .addCase("clearError", (state) => {
        state.error = null;
      })

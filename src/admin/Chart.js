@@ -21,7 +21,7 @@ export const LineChart = () => {
         datasets: [
             {
                 label: "Views",
-                data:[1,2,3,4],
+                data:[1,2,3],
                 borderColor: "rgba(107,70,193,0.5)",
                 backgroundColor: "#6b56"
 
@@ -31,13 +31,13 @@ export const LineChart = () => {
   return <Line options={options} data={data} />
 };
 
-export const DoughnutChart = () =>{
+export const DoughnutChart = ({views = []}) =>{
     const data = {
         labels: ["Subscribed", "Not Subscribed"],
         datasets: [
             {
                 label: "Views",
-                data:[3,20],
+                data: views,
                 borderColor: ["rgba(62,12,171)", "rgba(214,43,129)"],
                 backgroundColor: ["rgba(62,12,171,0.3)", "rgba(214,43,129,0.3)"],
                 borderWidth: 1,
