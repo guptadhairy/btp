@@ -22,3 +22,25 @@
   .swiper-slide{
     width: 60%;
   }
+
+  .mySwiper {
+    width: 100%;
+  }
+  
+  /* Styles for TestCard */
+  .gameBox {
+    margin: 0 auto; /* Center the TestCard */
+  }
+  
+  /* Media query for smaller screens */
+  @media (max-width: 768px) {
+    /* Adjustments for smaller screens */
+    .mySwiper {
+      width: 90%; /* Adjust the width as needed */
+    }
+  
+    /* Styles for TestCard on smaller screens */
+    .gameBox {
+      margin: 0 auto;
+    }
+  }

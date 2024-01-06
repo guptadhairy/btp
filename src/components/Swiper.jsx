@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 
-import {Card, CardHeader, Flex, Avatar, Box, Text, IconButton,  CardBody, CardFooter} from "@chakra-ui/react"
+import { Card, CardHeader, Flex, Avatar, Box, Text, IconButton, CardBody, CardFooter } from "@chakra-ui/react"
 
 
 // import required modules
@@ -20,14 +20,23 @@ export default function Slider() {
     SwiperCore.use([Autoplay])
     return (
 
-        <VStack height={"100vh"} justifyContent={"center"}>
+        <VStack height={"80vh"} justifyContent={"center"}>
             <Heading marginBottom={"20px"}>Testimonials</Heading>
             <Swiper
                 autoplay={{ delay: 2000 }}
                 effect={"coverflow"}
                 grabCursor={true}
                 centeredSlides={true}
-                slidesPerView={2.87}
+                breakpoints={{
+                    // when window width is >= 768px
+                    768: {
+                        slidesPerView: 1.5, // or any other value you want
+                    },
+                    // when window width is >= 1024px
+                    1024: {
+                        slidesPerView: 2.87, // or any other value you want
+                    },
+                }}
                 loop={true}
                 coverflowEffect={{
                     rotate: 15,
@@ -47,12 +56,7 @@ export default function Slider() {
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="gameBox">
-                    <TestCard />
-                    </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <div className="gameBox">
-                    <TestCard />
+                        <TestCard />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
@@ -62,27 +66,32 @@ export default function Slider() {
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="gameBox">
-                    <TestCard />
+                        <TestCard />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="gameBox">
-                    <TestCard />
+                        <TestCard />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="gameBox">
-                    <TestCard />
+                        <TestCard />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="gameBox">
-                    <TestCard />
+                        <TestCard />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className="gameBox">
-                    <TestCard />
+                        <TestCard />
+                    </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <div className="gameBox">
+                        <TestCard />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
@@ -113,7 +122,7 @@ const TestCard = () => {
                         variant='ghost'
                         colorScheme='gray'
                         aria-label='See menu'
-                        
+
                     />
                 </Flex>
             </CardHeader>

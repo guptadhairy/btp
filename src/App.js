@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from "react-hot-toast";
 import { loadUser } from './redux/actions/user';
 import { ProtectedRoute } from "protected-route-react"
+import AboutUs from './components/AboutUs';
 // import Loader from './components/Loader';
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
       <Header isAuthenticated={isAuthenticated} user={user} />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path='/about' element={<AboutUs />} />
               <Route path='/courses' element={<Course />} />
               <Route path='/login' element={
                 <ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/profile">
