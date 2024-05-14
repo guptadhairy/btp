@@ -57,10 +57,10 @@ const Dashboard = () => {
                 <DataBox title="Users" qty={usersCount} qtyPercentage={Math.round(usersPercentage)} profit={usersProfit} />
                 <DataBox title="Subscription" qty={subscriptionCount} qtyPercentage={subscriptionPercentage} profit={subscriptionProfit} />
             </Stack>
-            <Box m={['0', '16']} borderRadius={'lg'} p={['0', '16']} mt={['4', '16']} boxShadow={'-2px 0 10px rgba(107, 70, 193, 0.5)' } >
+            {/* <Box m={['0', '16']} borderRadius={'lg'} p={['0', '16']} mt={['4', '16']} boxShadow={'-2px 0 10px rgba(107, 70, 193, 0.5)' } >
                 <Heading textAlign={['center', 'left']} size={'md'} pt={['8', '0']} ml={['0', '16']}>Views Graph</Heading>
-                {/* <LineChart /> */}
-            </Box>
+                <LineChart />
+            </Box> */}
             <Grid templateColumns={['1fr', '2fr 1fr']}>
                 <Box p={'4'}>
                     <Heading textAlign={['center', 'left']} size={'md'} my={'8'} ml={['0', '16']}>Progress Bar</Heading>

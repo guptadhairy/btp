@@ -30,6 +30,17 @@ export const adminReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload;
     })
+    .addCase("addLectureRequest", (state)=> {
+      state.loading = true;
+    })
+    .addCase("addLectureSuccess", (state, action)=> {
+      state.loading = false;
+      state.message = action.payload;
+    })
+    .addCase("addLectureFail", (state, action)=> {
+      state.loading = false;
+      state.error = action.payload;
+    })
     .addCase("deleteCourseRequest", (state) => {
        state.loading = true;
      })

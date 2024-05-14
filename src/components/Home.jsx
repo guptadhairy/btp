@@ -29,6 +29,7 @@ const Home = () => {
   return (
     <div>
       <Stack>
+        
         <HStack display={'flex'} flexDirection={['column', 'row']} padding={"30px"} height={"100vh"} width={"full"} justifyContent={"space-between"}>
           <VStack width={'full'} height={'100vh'} justifyContent={'center'}>
             <HStack display={'flex'} flexDirection={['column', 'row']}>

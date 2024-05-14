@@ -15,7 +15,7 @@ const fileUploadStyle = {
     '&::file-selector-button' : fileUploadCss,
 };
 
-const CourseModal = ({isOpen, onClose, id, deleteButtonHandler, courseTitle, lectures=[1,2,3,4,5,6,7,8,9], addLectureHandler}) => {
+const CourseModal = ({isOpen, onClose, id, deleteButtonHandler, courseTitle, lectures=[], addLectureHandler}) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [video, setVideo] = useState("");

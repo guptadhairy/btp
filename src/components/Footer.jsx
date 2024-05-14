@@ -16,7 +16,7 @@ const Footer = () => {
       </HStack>
       <VStack width={["full","40%"]}>
       <Text>Built with ♡ by Dhairya</Text>
-      <Text>2023 © All Rights Reserved.</Text>
+      <Text>2024 © All Rights Reserved.</Text>
       </VStack>
       <VStack mr={["0",'30px']} width={["full","30%"]}>
       <HStack >

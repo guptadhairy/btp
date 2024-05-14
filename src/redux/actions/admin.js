@@ -36,6 +36,31 @@ export const createCourse = formData => async dispatch => {
    };
 
 
+   export const addLecture = (id, formdata) => async dispatch => {
+    try {
+      const config = {
+        headers: {
+          'Content-type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      };
+      dispatch({ type: 'addLectureRequest' });
+  
+      const { data } = await axios.post(
+        `${server}/course/${id}`,
+        formdata,
+        config
+      );
+  
+      dispatch({ type: 'addLectureSuccess', payload: data.message });
+    } catch (error) {
+      dispatch({
+        type: 'addLectureFail',
+        payload: error.response.data.message,
+      });
+    }
+  };
+  
    export const getAllUsers = () => async dispatch => {
     try {
         dispatch({type: 'getAllUsersRequest'});

@@ -27,6 +27,9 @@ const Marque = ({direction="right"}) => {
         <div className='image_wraper' >
       <img className="imgSkill" src={js} alt="profile"  />
         </div>
+        <div className='image_wraper' >
+      <img className="imgSkill2" src={html} alt="profile"  />
+        </div>
           </Marquee>
     </div>
   )
